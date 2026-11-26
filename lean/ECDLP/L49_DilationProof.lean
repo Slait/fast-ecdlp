@@ -28,7 +28,7 @@ theorem card_filter_roots_le_two_mul_natDegree
   have hmaps : (↑S : Set α).MapsTo s ↑(p.roots.toFinset) := by
     intro a ha
     simp only [S, coe_filter, mem_univ, true_and, Set.mem_setOf_eq] at ha
-    exact Multiset.mem_toFinset.mpr ((Polynomial.mem_roots hp).2 (by simpa [Polynomial.IsRoot] using ha))
+    exact Multiset.mem_toFinset.mpr ((Polynomial.mem_roots hp).2 (by simpa only [Polynomial.IsRoot.def] using ha))
   have hfib : ∀ z ∈ p.roots.toFinset, (S.filter (fun a => s a = z)).card ≤ 2 := by
     intro z hz
     rcases (S.filter (fun a => s a = z)).eq_empty_or_nonempty with h | ⟨a, ha⟩
