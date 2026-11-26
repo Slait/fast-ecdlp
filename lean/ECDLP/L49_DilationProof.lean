@@ -16,8 +16,6 @@ open Finset
 
 namespace ECDLP.L49
 
-variable {K : Type*} [Field K] [Fintype K] [DecidableEq K]
-
 /-- A map whose fibres have at most two explicitly described elements pulls back a polynomial's
 root set to at most twice its degree. -/
 theorem card_filter_roots_le_two_mul_natDegree
@@ -52,6 +50,8 @@ theorem card_filter_roots_le_two_mul_natDegree
       gcongr
       exact (Multiset.toFinset_card_le _).trans (Polynomial.card_roots' p)
 
+variable {K : Type*} [Field K] [Fintype K] [DecidableEq K]
+
 /-- A Semaev-style certificate specialised to a fixed curve: for each non-trivial tuple of
 factor-base abscissas, a nonzero polynomial in the dilation parameter vanishes whenever the
 corresponding points sum to zero. -/
@@ -71,7 +71,7 @@ theorem invSq_fiber_two {K : Type*} [Field K] (u v : Kˣ)
     (h : ((u : K)⁻¹) ^ 2 = ((v : K)⁻¹) ^ 2) :
     v = u ∨ v = negUnit u := by
   have hsq : (u : K) ^ 2 = (v : K) ^ 2 := by
-    have h' := congrArg Inv.inv h
+    have h' := congrArg (fun x : K => x⁻¹) h
     simpa only [inv_pow, inv_inv] using h'
   have hprod : ((u : K) - (v : K)) * ((u : K) + (v : K)) = 0 := by
     nlinarith [hsq]
