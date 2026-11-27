@@ -12,7 +12,7 @@ the bound `2 * D'` follows in Lean from the polynomial root bound and the two-to
 Semaev summation polynomials and prove its nonvanishing for non-trivial tuples.
 -/
 
-open Finset
+open Finset ECDLP.L40 ECDLP.L43 ECDLP.L46
 
 namespace ECDLP.L49
 
@@ -74,7 +74,10 @@ theorem invSq_fiber_two {K : Type*} [Field K] (u v : Kˣ)
     have h' := congrArg (fun x : K => x⁻¹) h
     simpa only [inv_pow, inv_inv] using h'
   have hprod : ((u : K) - (v : K)) * ((u : K) + (v : K)) = 0 := by
-    nlinarith [hsq]
+    calc
+      ((u : K) - (v : K)) * ((u : K) + (v : K))
+          = (u : K) ^ 2 - (v : K) ^ 2 := by ring
+      _ = 0 := sub_eq_zero.mpr hsq
   rcases mul_eq_zero.mp hprod with hdiff | hsum
   · left
     apply Units.ext
