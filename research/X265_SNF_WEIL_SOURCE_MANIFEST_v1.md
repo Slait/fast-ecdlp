@@ -5,9 +5,9 @@
 
 ## Companion source archive
 
-The complete reproducible source package is distributed as `X265_SNF_WEIL_IMPLEMENTATION_v1.zip`.
+The complete reproducible source package is distributed as `X265_SNF_WEIL_IMPLEMENTATION_v1_1.zip`.
 
-- SHA-256: `2419cdcfc615ec7958224733577a91d9ab336e660929bc8b6a9a7dd951f8d461`
+- SHA-256: `27f7a73e8b7e9cade9bdda6b94ff2b9f44da2e8578e4c33fb3c3c95d17d36878`
 - Contains:
   - `X265_SNF_WEIL_PRODUCER_v1.py`
   - `X265_SNF_WEIL_VERIFIER_v1.py`
@@ -47,3 +47,6 @@ Seed: `20261127`.
 
 The source archive is a research implementation candidate. It is not a constant-time
 cryptographic library, not a unified Lean build, and not an externally reviewed release.
+
+
+Archive v1.1 is the canonical deterministic bundle. It supersedes the earlier v1 ZIP packaging; individual source and test-result hashes are unchanged.
