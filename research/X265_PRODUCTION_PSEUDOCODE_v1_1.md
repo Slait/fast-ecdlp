@@ -2,7 +2,7 @@
 
 **Date:** 27 November 2026  
 **Scope:** close limitation 1: a single end-to-end specification for X263 + X264 + Count15 + X265, including the corrected fresh-dilation coordinate rounds.  
-**Status:** `PSEUDOCODE_SPECIFIED / IMPLEMENTATION_OPEN / AUDIT_REVISION_1`. This document is a reviewed mathematical specification, not a production executable and not a unified Lean proof.  
+**Status:** `PSEUDOCODE_SPECIFIED / IMPLEMENTATION_OPEN / AUDIT_REVISION_1`. This document has undergone an internal mathematical audit in this pass; it has not undergone independent human peer review. It is not a production executable and not a unified Lean proof.  
 **Parameters:** `m = 15`; integer security parameter `lambda >= 1`; `s = lambda + 9`. The stated `N^(1/5+o(1))` bound is for fixed `lambda`, or more generally `lambda = polylog(N)`; arbitrary growth of `lambda` is not covered by that bound.
 
 ## 0. Status discipline
