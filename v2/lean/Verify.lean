@@ -45,6 +45,7 @@ example : ∀ m : ℕ, type_of% (ECDLP109.countingRate m) := ECDLP.L132.counting
 -- X265 certificate-checker interfaces: these theorems are intentionally
 -- relative to the supplied Miller evaluator and do not assert its divisor-theoretic correctness.
 #print axioms ECDLP.L265.verifySNFCertificate_sound
+#print axioms ECDLP.L265.verifyX265SNFCertificate_sound
 #print axioms ECDLP.L265.verifyWeilTranscript_sound
 
 -- Crossover arithmetic of the engine schedules (Section Where the guarantee starts to win).
