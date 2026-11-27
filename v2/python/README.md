@@ -70,3 +70,5 @@ map. The full factorization and curve group order are upstream inputs.
 This is research exact-arithmetic code, not constant-time cryptographic software.
 Do not deploy it against secret scalars without replacing Python big integers and
 modular inversions with a reviewed constant-time backend.
+
+For the pinned source archive, file hashes, and reproducible test summary, see [`research/X265_SNF_WEIL_SOURCE_MANIFEST_v1.md`](../../research/X265_SNF_WEIL_SOURCE_MANIFEST_v1.md).
