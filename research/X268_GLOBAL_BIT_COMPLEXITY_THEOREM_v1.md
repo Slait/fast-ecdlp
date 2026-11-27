@@ -315,7 +315,7 @@ This search is Las Vegas: it retries only when an evaluation is undefined or zer
 
 The small-field direct branch handles \(p<P_{15}\), so no separate small-\(N\) auxiliary-point bound is needed.
 
-**Implementation boundary.** The reference Python pairing routine currently has a finite loop cap of 600 and is a small-field referee, not the proof-level routine. The production specification must implement the unbounded expected-time search just proved, or use a finite cap and multiply the round-success probability by the corresponding explicit non-exhaustion probability. The arbitrary constant 600 is not itself a proof.
+**Implementation boundary.** The older X260 small-field referee `x260_pairing_certificates.py` has a finite loop cap of 600 and is not the proof-level routine. The X265 producer `x265_snf_weil.py` already supports the unbounded Las Vegas mode `max_aux_attempts=None`; the patch accompanying X268 makes it explicitly reject all four standard shifts, updates its bad-point bound to (13), and fails closed if a valid shifted ratio is not an n-th root of unity. A finite cap remains permissible only if the outer success probability includes its explicit non-exhaustion probability.
 
 ## 7. Probability of attempts and expected total number
 
