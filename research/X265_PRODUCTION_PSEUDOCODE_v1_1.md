@@ -69,7 +69,7 @@ For `E: y^2=x^3+a*x+b`, sample a token `z` uniformly from `{0,...,2p}`:
 - if `r=0`, accept only `sign=0` and return `(x,0)`;
 - if `r != 0`, compute the canonical root `y0=min(y,p-y)` from a square root `y`, so `0<y0<= (p-1)/2`; return `(x,y0)` for `sign=0`, `(x,p-y0)` for `sign=1`.
 
-Every point of `E(F_p)` has exactly one accepted token. Thus the accepted point is exactly uniform. The acceptance probability is `N/(2p+1)`, which is bounded below by a positive constant in the asymptotic range by Hasse. For Tonelli–Shanks, first find a quadratic nonresidue by sampling uniform nonzero field elements and checking Euler's criterion; this takes fewer than two trials in expectation, and the test certifies the chosen nonresidue. Reuse it for all square roots in the field. Tonelli–Shanks is then deterministic given that certified nonresidue. A deterministic nonresidue search must not be silently assumed to take polylogarithmic time.
+Every point of `E(F_p)` has exactly one accepted token. Thus the accepted point is exactly uniform. The acceptance probability is `N/(2p+1)`, which is bounded below by a positive constant in the asymptotic range by Hasse. For Tonelli–Shanks, first find a quadratic nonresidue by sampling uniform nonzero field elements and checking Euler's criterion; this takes at most two trials in expectation, and the test certifies the chosen nonresidue. Reuse it for all square roots in the field. Tonelli–Shanks is then deterministic given that certified nonresidue. A deterministic nonresidue search must not be silently assumed to take polylogarithmic time.
 
 ### 2.3 Dilation and factor base
 
