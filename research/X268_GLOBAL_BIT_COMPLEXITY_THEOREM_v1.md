@@ -315,7 +315,7 @@ This search is Las Vegas: it retries only when an evaluation is undefined or zer
 
 The small-field direct branch handles \(p<P_{15}\), so no separate small-\(N\) auxiliary-point bound is needed.
 
-**Implementation boundary.** The older X260 small-field referee `x260_pairing_certificates.py` has a finite loop cap of 600 and is not the proof-level routine. The X265 producer `x265_snf_weil.py` already supports the unbounded Las Vegas mode `max_aux_attempts=None`; the patch accompanying X268 makes it explicitly reject all four standard shifts, updates its bad-point bound to (13), and fails closed if a valid shifted ratio is not an n-th root of unity. A finite cap remains permissible only if the outer success probability includes its explicit non-exhaustion probability.
+**Implementation boundary.** The older X260 small-field referee `x260_pairing_certificates.py` has a finite loop cap of 600 and is not the proof-level routine. The X265 producer `x265_snf_weil.py` already supports the unbounded Las Vegas mode `max_aux_attempts=None`; the v1.2 patch makes it explicitly reject all four standard shifts, updates its bad-point bound to (13), and fails closed if a valid shifted ratio is not an n-th root of unity. A finite cap remains permissible only if the outer success probability includes its explicit non-exhaustion probability. Separately, the older factor-base referee `x258_dense_mask_referee.py` finds a quadratic nonresidue by deterministic sequential scan; it is test-only and must not be used as the production cost model. The proof-level factor-base routine samples a uniform nonzero field element until its Legendre symbol is \(-1\), which takes exactly two trials in expectation.
 
 ## 7. Probability of attempts and expected total number
 
@@ -424,7 +424,8 @@ The factor-base storage is \(O(X\log N)\), and the compact HNF/SNF certificate i
 1. A unified Lean development of X263 + X264 + Count₁₅ + X265 + X266 + X267 + X268.
 2. A production executable that uses the proof-aligned Kannan–Bachem routine and the explicit Miller auxiliary search; the existing Python code is a reference implementation.
 3. External independent mathematical review of the X263/X264 geometric arguments and the full composition.
-4. A production cryptographic RNG/constant-time implementation. The theorem uses ideal independent uniform bits; a CSPRNG deployment gives a computational pseudorandomness claim, not literal information-theoretic uniformity.
+4. A production factor-base square-root path must use the randomized nonresidue search in §5.1; the deterministic scan in the `x258` test referee is not covered by the polylogarithmic cost proof.
+5. A production cryptographic RNG/constant-time implementation. The theorem uses ideal independent uniform bits; a CSPRNG deployment gives a computational pseudorandomness claim, not literal information-theoretic uniformity.
 
 Thus X268 closes the **paper-level global bit-cost accounting conditional on the earlier mathematical lemmas**. It does not close `ECDLP-MAIN` as a single formally verified or production-executed theorem.
 
