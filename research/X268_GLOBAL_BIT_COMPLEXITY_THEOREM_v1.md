@@ -28,7 +28,7 @@ For fixed \(\lambda\ge1\), or \(\lambda=\operatorname{polylog}N\), its expected 
 \boxed{T(N)=N^{1/5+o(1)},\qquad S(N)\le N^{1/5+o(1)}.}
 \]
 
-This is a conditional composition theorem: the cited X263/X264/Count₁₅ paper-level inputs remain assumptions of this statement, and the full ECDLP goal is not thereby Lean-verified.
+This is a conditional composition theorem: the cited X263/X264/Count₁₅ paper-level inputs remain assumptions of this statement, and the full ECDLP goal is not thereby Lean-verified. The bound is expressed in the group-order parameter \\(N\\) and is an expected Las Vegas bit-time bound. The registry's `ECDLP-MAIN` target is expressed instead as \\(T_{\\mathrm{joint}}(M)=M^{2-\\delta+o(1)}\\) in its full-input computational model. No mapping from that registry parameter/model to \\(N\\) is proved here, so X268 does not establish the registry target.
 
 ## 2. Relating \(p\) and \(N\)
 
@@ -426,6 +426,7 @@ The factor-base storage is \(O(X\log N)\), and the compact HNF/SNF certificate i
 3. External independent mathematical review of the X263/X264 geometric arguments and the full composition.
 4. A production factor-base square-root path must use the randomized nonresidue search in §5.1; the deterministic scan in the `x258` test referee is not covered by the polylogarithmic cost proof.
 5. A production cryptographic RNG/constant-time implementation. The theorem uses ideal independent uniform bits; a CSPRNG deployment gives a computational pseudorandomness claim, not literal information-theoretic uniformity.
+6. A proved reduction from the registry's full-input parameter \\(M\\) and its exact worst-case/expected-time model to the group-order parameter \\(N\\). Without that bridge, \\(N^{1/5+o(1)}\\) is not a proof of \\(T_{\\mathrm{joint}}(M)=M^{2-\\delta+o(1)}\\).
 
 Thus X268 closes the **paper-level global bit-cost accounting conditional on the earlier mathematical lemmas**. It does not close `ECDLP-MAIN` as a single formally verified or production-executed theorem.
 
