@@ -47,7 +47,7 @@ def SNFCertificate.Valid {s : ℕ} (M : X265RelMat s)
   Int.natAbs cert.S.det = 1 ∧
   Int.natAbs cert.T.det = 1 ∧
   (∀ i : Fin 3, ∀ j : Fin (s + 3), i.val ≠ j.val → cert.D i j = 0) ∧
-  0 < cert.D 0 0 ∧
+  0 < cert.D 0 0 ∧ 0 < cert.D 1 1 ∧ 0 < cert.D 2 2 ∧
   cert.D 0 0 ∣ cert.D 1 1 ∧
   cert.D 1 1 ∣ cert.D 2 2
 
@@ -86,6 +86,8 @@ def WeilTranscript.Valid {α : Type*} [AddGroup α] {p : ℕ}
     [Fact p.Prime]
     (miller : ℕ → α → α → Option (ZMod p))
     (n : ℕ) (P Q : α) (cert : WeilTranscript α p) : Prop :=
+  n ∣ p - 1 ∧
+  n • P = 0 ∧ n • Q = 0 ∧
   miller n P (Q + cert.S) = some cert.v₁ ∧
   miller n P cert.S = some cert.v₂ ∧
   miller n Q (-cert.S) = some cert.v₃ ∧
@@ -117,7 +119,7 @@ primeDivisors list must itself be checked as the complete prime-divisor
 list of n by the caller. -/
 def IsPrimitiveNRoot {p : ℕ} [Fact p.Prime] (n : ℕ)
     (primeDivisors : Finset ℕ) (eta : ZMod p) : Prop :=
-  eta ^ n = 1 ∧
+  0 < n ∧ eta ^ n = 1 ∧
     ∀ ell ∈ primeDivisors, eta ^ (n / ell) ≠ 1
 
 end ECDLP.L265
