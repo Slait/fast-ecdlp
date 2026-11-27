@@ -72,3 +72,6 @@ Do not deploy it against secret scalars without replacing Python big integers an
 modular inversions with a reviewed constant-time backend.
 
 For the pinned source archive, file hashes, and reproducible test summary, see [`research/X265_SNF_WEIL_SOURCE_MANIFEST_v1.md`](../../research/X265_SNF_WEIL_SOURCE_MANIFEST_v1.md).
+
+
+Lean interface draft: [`v2/lean/ECDLPv2/X265_SNFWielInterface.lean`](../lean/ECDLPv2/X265_SNFWielInterface.lean). Current port status and open proof obligations: [`research/X265_LEAN_PORT_STATUS_v1.md`](../../research/X265_LEAN_PORT_STATUS_v1.md). The Lean interface has not yet been compiled or imported into `Verify.lean`.
