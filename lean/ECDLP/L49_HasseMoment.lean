@@ -31,7 +31,7 @@ theorem fb_card_le_two_mul (A B : K) (T : Finset K) :
   let W := shortW A B
   have hmaps : (↑(fb A B T) : Set W.Point).MapsTo (xco W) ↑T := by
     intro P hP
-    simp only [fb, mem_filter, mem_univ, true_and] at hP
+    simp only [fb, coe_filter, Set.mem_ofPred_eq, mem_univ, true_and] at hP
     exact hP.2
   calc
     (fb A B T).card = ∑ x ∈ T, ((fb A B T).filter (fun P => xco W P = x)).card :=
@@ -41,8 +41,14 @@ theorem fb_card_le_two_mul (A B : K) (T : Finset K) :
       have hsub : ((fb A B T).filter (fun P => xco W P = x)) ⊆
           (univ : Finset W.Point).filter (fun P => xc W P = some x) := by
         intro P hP
-        simp only [mem_filter] at hP
-        cases P <;> simp_all [fb, xc, xco]
+        rcases Finset.mem_filter.mp hP with ⟨hfb, hx⟩
+        cases P with
+        | zero =>
+            simp [fb, xc] at hfb
+        | some x' y' h =>
+            have hx' : x' = x := by simpa [xco] using hx
+            subst x'
+            simp [xc]
       exact (card_le_card hsub).trans (card_fibre_le_two W univ (some x))
     _ = 2 * T.card := by simp [mul_comm]
 
@@ -97,7 +103,7 @@ theorem factorBaseVar_trivial (A B : K) (T : Finset K) :
     have hlow : (0 : ℝ) ≤ (fb ((u : K) ^ 4 * A) ((u : K) ^ 6 * B) T).card := by positivity
     have hhigh : ((fb ((u : K) ^ 4 * A) ((u : K) ^ 6 * B) T).card : ℝ) ≤ 2 * X := by
       dsimp [X]
-      exact_mod_cast fb_card_le_two_mul A B T
+      exact_mod_cast fb_card_le_two_mul ((u : K) ^ 4 * A) ((u : K) ^ 6 * B) T
     constructor <;> dsimp [X] <;> linarith
   have hsq (u : Kˣ) :
       (((fb ((u : K) ^ 4 * A) ((u : K) ^ 6 * B) T).card : ℝ) - X) ^ 2 ≤ X ^ 2 := by
