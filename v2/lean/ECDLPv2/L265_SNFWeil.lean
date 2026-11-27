@@ -63,11 +63,27 @@ theorem verifySNFCertificate_sound {s : ℕ} (M : X265RelMat s)
     cert.Valid M := by
   exact of_decide_eq_true hcheck
 
+/-- The combined verifier also checks the X265 input shape and reduced residues. -/
+def SNFCertificate.ValidForX265 {s : ℕ} (N : ℤ) (M : X265RelMat s)
+    (cert : SNFCertificate s) : Prop :=
+  X265Input N M ∧ cert.Valid M
+
+def verifyX265SNFCertificate {s : ℕ} (N : ℤ) (M : X265RelMat s)
+    (cert : SNFCertificate s) : Bool :=
+  decide (cert.ValidForX265 N M)
+
+/-- Soundness of the complete X265 input and SNF certificate checker. -/
+theorem verifyX265SNFCertificate_sound {s : ℕ} (N : ℤ) (M : X265RelMat s)
+    (cert : SNFCertificate s)
+    (hcheck : verifyX265SNFCertificate N M cert = true) :
+    cert.ValidForX265 N M := by
+  exact of_decide_eq_true hcheck
+
 /-- X265 group-lattice endpoint: the invariant factors are (1,n₁,n₂)
 and their product is the group order N. -/
 def SNFCertificate.IsX265Lattice {s : ℕ} (N : ℤ)
     (M : X265RelMat s) (cert : SNFCertificate s) : Prop :=
-  cert.Valid M ∧ cert.D 0 0 = 1 ∧
+  cert.ValidForX265 N M ∧ cert.D 0 0 = 1 ∧
     cert.D 0 0 * cert.D 1 1 * cert.D 2 2 = N
 
 /-- A Weil transcript stores the auxiliary point, the four shifted Miller
