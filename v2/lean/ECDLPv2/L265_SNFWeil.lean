@@ -79,6 +79,15 @@ theorem verifyX265SNFCertificate_sound {s : ℕ} (N : ℤ) (M : X265RelMat s)
     cert.ValidForX265 N M := by
   exact of_decide_eq_true hcheck
 
+/-- Small executable smoke test: the identity lattice at N=1. -/
+private def trivialMatrix : X265RelMat 0 := 1
+
+private def trivialCertificate : SNFCertificate 0 :=
+  { S := 1, T := 1, D := 1 }
+
+example : verifyX265SNFCertificate 1 trivialMatrix trivialCertificate = true := by
+  decide
+
 /-- X265 group-lattice endpoint: the invariant factors are (1,n₁,n₂)
 and their product is the group order N. -/
 def SNFCertificate.IsX265Lattice {s : ℕ} (N : ℤ)
