@@ -21,4 +21,4 @@ For each Miller line quotient, the numerator line has at most three intersection
 
 For \(N\ge1024\) and \(n\le N\), this is at most \(N/2\), so a uniform auxiliary point is good with probability at least \(1/2\), and the expected number of trials is at most two. Uniform point sampling has constant expected rejection overhead by Hasse. The full Weil computation and auxiliary search therefore cost \(\operatorname{polylog}N\) expected bit operations.
 
-The existing Python reference routine's fixed 600-iteration cap is not the proof. Either implement the expected-time loop above, or keep a finite cap and include its explicit failure probability in the outer attempt analysis.
+The older X260 small-field referee has a fixed 600-iteration cap and is not the proof. The X265 producer supports `max_aux_attempts=None`, which is the proof-aligned unbounded Las Vegas mode. A finite cap is permissible only if its explicit non-exhaustion probability is included in the outer attempt analysis.
