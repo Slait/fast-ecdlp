@@ -229,11 +229,18 @@ The first three columns are valid relations and the last three are `8 I3`. The e
 
 \[
 S=I_3,\quad
-D=[\operatorname{diag}(1,2,4)\mid0],\quad
-\det S=\det T=1
+T=\begin{pmatrix}
+1&0&0&-8&0&0\
+0&1&0&0&-4&0\
+0&0&1&0&0&-2\
+0&0&0&1&0&0\
+0&0&0&0&1&0\
+0&0&0&0&0&1
+\end{pmatrix},\quad
+D=[\operatorname{diag}(1,2,4)\mid0].
 \]
 
-(for a suitable unimodular `T`; the displayed diagonal matrix itself is already obtained by the identity column transform). Thus the diagonal product is `8=N`, and the extracted points have orders `2` and `4`.
+Direct multiplication gives `S*M*T=D`, and `det S=det T=1`. Thus the diagonal product is `8=N`, and the extracted points have orders `2` and `4`.
 
 Nevertheless, they generate only four points. In this example
 
