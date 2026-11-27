@@ -256,7 +256,7 @@ e_n(P,Q)=
 \tag{12}
 \]
 
-for an auxiliary point \(R\) for which all four Miller evaluations are defined and nonzero. Here \(\operatorname{div}(f_{n,P})=n(P)-n(O)\), and similarly for \(Q\). The verifier receives \(R\), recomputes the four Miller values, and checks (12) and the exact order of the result. The shifted formula and its four excluded shifts are the standard Miller/Weil formula; see the cited pairing algorithm in the sources.
+for an auxiliary point \(R\) for which all four Miller evaluations are defined and nonzero. Here \(\operatorname{div}(f_{n,P})=n(P)-n(O)\), and similarly for \(Q\). The verifier receives \(R\), first checks \(R\notin\{O,P,-Q,P-Q\}\), recomputes the four Miller values, and checks (12) and the exact order of the result. The shifted formula and its four excluded shifts are the standard Miller/Weil formula; see the cited pairing algorithm in the sources.
 
 ### Lemma 6.1 — number of bad auxiliary points
 
@@ -359,19 +359,19 @@ The bound is independent of \(N\). All failed attempts are detected by a cap, a 
 
 ## 8. Complete bit-cost ledger
 
-Let \(X=\Theta(N^{1/15})\) always and \(f\le2X\) always; on good dilations \(f=\Theta(X)\). The costs per capped attempt are upper-bounded as follows, including attempts on bad dilations:
+Let \(X=\Theta(N^{1/15})\) always and \(f\le2X\) always; on good dilations \(f=\Theta(X)\). The global preprocessing costs and per-capped-attempt costs are:
 
-| Component | Bit cost |
-|---|---:|
-| Schoof point count | \(\operatorname{polylog}N\) |
-| Complete deterministic factorisation of \(N\), once | \(N^{1/5+o(1)}\) |
-| Factor-base construction | \(O(f\operatorname{polylog}N)\) |
-| Count₁₅ probes and witness extraction | \(N^{1/15+o(1)}\) |
-| Upper mask generation \(cF\) | \(O(f^2\operatorname{polylog}N)\) |
-| Modular left inverse of \((f+2)\times f\) matrix | \(O(f^3\operatorname{polylog}N)\) |
-| Lower kernel sample construction | \(O(sf\operatorname{polylog}N)\) |
-| Relation HNF/SNF via X267 | \(\operatorname{polylog}N\) |
-| Point-order checks, Miller/Weil, CRT, final scalar check | \(\operatorname{polylog}N\) expected |
+| Component | Bit cost | Frequency |
+|---|---:|---|
+| Schoof point count | \(\operatorname{polylog}N\) | once |
+| Complete deterministic factorisation of \(N\) | \(N^{1/5+o(1)}\) | once |
+| Factor-base construction | \(O(X\operatorname{polylog}N)\) | per attempt |
+| Count₁₅ probes and witness extraction | \(N^{1/15+o(1)}\) | per attempt |
+| Upper mask generation \(cF\) | \(O(X^2\operatorname{polylog}N)\) | per attempt |
+| Modular left inverse of \((f+2)\times f\) matrix | \(O(X^3\operatorname{polylog}N)\) | per attempt |
+| Lower kernel sample construction | \(O(sX\operatorname{polylog}N)\) | per attempt |
+| Relation HNF/SNF via X267 | \(\operatorname{polylog}N\) | per basis attempt |
+| Point-order checks, Miller/Weil, CRT, final scalar check | \(\operatorname{polylog}N\) expected | per basis/coordinate attempt |
 
 Since \(f\le2X\), every attempt's matrix step costs at most \(O(X^3\operatorname{polylog}N)\), and on good dilations \(f=\Theta(X)\). In particular \(X^3=\Theta(N^{3/15})=\Theta(N^{1/5})\), so the matrix left-inverse step is bounded by \(N^{1/5}\operatorname{polylog}N\). The factorisation cost is \(N^{1/5+o(1)}\). Every other contribution is smaller:
 
@@ -393,13 +393,13 @@ Consequently
 
 ### Space
 
-The largest explicit relation/mask arrays have \(O(f^2)\) entries of \(O(\log N)\) bits:
+The largest explicit relation/mask arrays have \(O(f^2)\) entries of \(O(\log N)\) bits. Since \(f\le2X\) on every dilation,
 
 \[
-S_{\rm masks}=O(f^2\log N)=N^{2/15+o(1)}.
+S_{\rm masks}=O(X^2\log N)=N^{2/15+o(1)}.
 \]
 
-The factor-base storage is \(O(f\log N)\), and the compact HNF/SNF certificate is polylogarithmic by X267. A deterministic Turing machine using \(T\) steps can visit at most \(O(T)\) tape cells; hence the factorisation and Count₁₅ subroutines use at most their time bounds in space. Therefore
+The factor-base storage is \(O(X\log N)\), and the compact HNF/SNF certificate is polylogarithmic by X267. A deterministic Turing machine using \(T\) steps can visit at most \(O(T)\) tape cells; hence the factorisation and Count₁₅ subroutines use at most their time bounds in space. Therefore
 
 \[
 \boxed{S(N)\le N^{1/5+o(1)}.}
