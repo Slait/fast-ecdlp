@@ -45,3 +45,8 @@ After the patch:
 ## Scope
 
 This patch closes the auxiliary-point bound/exceptional-shift mismatch in the Python candidate. It does **not** prove the custom rectangular SNF producer's bit complexity; X267's Kannan–Bachem route remains the proof-aligned algorithm specification. It also does not constitute a full production ECDLP implementation or a unified Lean proof.
+
+
+## Factor-base nonresidue cost boundary
+
+The older `x258_dense_mask_referee.py` scans candidates `z=2,3,...` deterministically. That helper is a small-field referee only and its least-nonresidue search is not covered by the polylogarithmic production cost proof. The proof-level factor-base routine must choose uniform random `z` in `F_p^*` until the Legendre symbol is `-1`; exactly half of the nonzero elements are nonsquares, so the expected number of trials is two. The X265 Weil producer already uses this randomized nonresidue sampler for its point sampler.
