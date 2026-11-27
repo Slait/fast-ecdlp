@@ -7,7 +7,7 @@ name: Lean proof check
 
 on:
   push:
-    branches: [main, work/l49-proof-reductions]
+    branches: [main]
   pull_request:
     branches: [main]
   workflow_dispatch:
