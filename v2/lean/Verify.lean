@@ -13,11 +13,12 @@ import ECDLPv2.L119_WAlg
 import ECDLPv2.L119_WMain
 import ECDLPv2.L149_Sched
 import ECDLPv2.L173_E0Quarter
+import ECDLPv2.L265_SNFWeil
 
 /-! Axiom check for the theorems added in version 2 of the paper.
-Expected output for each line: `[propext, Classical.choice, Quot.sound]`. -/
+Expected output for each line: [propext, Classical.choice, Quot.sound]. -/
 
--- Counting form of Theorem 2: the statement of `ECDLP/L109_CountChallenge.lean`, proved for every m.
+-- Counting form of Theorem 2: the statement of ECDLP/L109_CountChallenge.lean, proved for every m.
 example : ∀ m : ℕ, type_of% (ECDLP109.countingRate m) := ECDLP.L132.countingRate_all
 #print axioms ECDLP.L132.countingRate_all
 
@@ -41,8 +42,13 @@ example : ∀ m : ℕ, type_of% (ECDLP109.countingRate m) := ECDLP.L132.counting
 #print axioms ECDLP.L116.gen_two_explicit
 #print axioms ECDLP.L118.totient_ge
 
--- Crossover arithmetic of the engine schedules (Section "Where the guarantee starts to win"): G1 (e0 = 1/2) and the
--- faster base case (e0 = 1/4 + 1/(2 K0)). Arithmetic only; see the module headers for what is assumed.
+-- X265 certificate-checker interfaces: these theorems are intentionally
+-- relative to the supplied Miller evaluator and do not assert its divisor-theoretic correctness.
+#print axioms ECDLP.L265.verifySNFCertificate_sound
+#print axioms ECDLP.L265.verifyX265SNFCertificate_sound
+#print axioms ECDLP.L265.verifyWeilTranscript_sound
+
+-- Crossover arithmetic of the engine schedules (Section Where the guarantee starts to win).
 #print axioms L149.G1_arith_paper
 #print axioms L149.E0Q_arith_free
 #print axioms L149.E0Q_arith_paper
