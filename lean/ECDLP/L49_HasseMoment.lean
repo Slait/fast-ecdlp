@@ -8,10 +8,12 @@ The factor-base deviation is a sum of quadratic characters. This file proves the
 of its second moment into pair-correlation sums, and also proves the unconditional but deliberately
 coarse bound `FactorBaseVar ... |T|`.
 
-The sharp constant used by the paper requires a Weil bound for the off-diagonal sextic character
-sums `χ(f(sx) f(sy))` (a genus-two curve in the generic case). The separately available
-Hasse--Weil development proves the elliptic-curve bound (genus one), which is not by itself that
-sextic estimate. No such genus-two estimate is postulated here.
+For the sharp constant, write `s = u⁻²`. The dilation average is over nonzero squares in `s`;
+using the square indicator splits an off-diagonal correlation into character sums for a degree-six
+polynomial and its degree-seven twist. Their generic hyperelliptic genera are two and three,
+respectively. Exceptional square cases (including the special `A = 0` and `B = 0` orbits) need
+separate treatment. The available external Hasse--Weil development proves the elliptic-curve
+bound (genus one), not these higher-genus estimates. No such estimate is postulated here.
 -/
 
 open Finset ECDLP.L43
