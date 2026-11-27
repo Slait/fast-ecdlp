@@ -10,9 +10,12 @@ Input: \(E/\mathbb F_p\), \(n>1\), \(P,Q\in E[n](\mathbb F_p)\), with \(n\mid p-
    - reject \(R\) if \(R\in\{O,P,-Q,P-Q\}\);
    - compute the four Miller evaluations \(f_{n,P}(Q+R)\), \(f_{n,P}(R)\), \(f_{n,Q}(-R)\), \(f_{n,Q}(P-R)\);
    - reject this \(R\) if any intermediate line factor is zero or has a pole;
-   - form the shifted-divisor ratio (12) in X268 and check \(\eta^n=1\);
-   - return \(\eta\).
-3. The independent verifier receives \(R\), recomputes all four Miller values and the ratio, and checks exact order \(n\) by testing \(\eta^n=1\) and \(\eta^{n/\ell}\ne1\) for every distinct prime \(\ell\mid n\).
+   - form the shifted-divisor ratio (12) in X268;
+   - if \(\eta^n
+e1\), abort/reject the current basis attempt (do not resample \(R\), because the Weil value is independent of the valid shift);
+   - return \(\eta\). The subsequent exact-order test rejects a nonprimitive value and likewise rejects the basis attempt, not the auxiliary point.
+3. The independent verifier first checks \(R
+otin\{O,P,-Q,P-Q\}\), recomputes all four Miller values and the ratio, and checks exact order \(n\) by testing \(\eta^n=1\) and \(\eta^{n/\ell}\ne1\) for every distinct prime \(\ell\mid n\).
 
 For each Miller line quotient, the numerator line has at most three intersections with \(E\), and the vertical denominator at most two. Thus each factor has at most five zero/pole evaluation points. Four Miller runs have at most \(8\lfloor\log_2n\rfloor\) factors. The four translated arguments are bijections of the auxiliary point. Hence at most \(40\lfloor\log_2n\rfloor+4\) auxiliary points are rejected.
 
