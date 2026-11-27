@@ -47,18 +47,14 @@ X=\lceil p^{1/15}\rceil=\Theta(N^{1/15}).
 
 The finite branch \(p<P_{15}\) is handled by exhaustive search. Since \(P_{15}\) is a fixed constant, this does not affect the asymptotic statement.
 
-For \(p\ge P_{15}\), the X263/X264/X265 coverage theorem supplies a set of good dilations of relative size at least \(1/8\). On every good dilation the factor-base size \(f=|F_u|\) satisfies
+For \(p\ge P_{15}\), the X263/X264/X265 coverage theorem supplies a set of good dilations of relative size at least \(1/8\). On every dilation, good or bad, \(f=|F_u|\le2X\), because each of the \(X\) candidate abscissae contributes at most two points. On a good dilation the coverage theorem additionally gives \(f>X/2\). Thus
 
 \[
-X/2<f\le2X.
-\]
-
-Thus on every successful large-parameter attempt,
-
-\[
-\boxed{f=\Theta(N^{1/15}).}
+f\le2X\quad\text{always},\qquad f=\Theta(N^{1/15})\quad\text{on good dilations}.
 \tag{2}
 \]
+
+The upper complexity bounds below use \(f\le2X\) on **every** attempt, including failed/bad dilations; the lower bound \(f>X/2\) is used only in the success-probability and asymptotic-size arguments.
 
 ## 3. Point counting and complete factorisation of \(N\)
 
@@ -156,15 +152,14 @@ This is a worst-case bound within the explicit raw-probe cap; it is not merely a
 
 For a fixed dilation \(u\), there are \(X\) candidate abscissae. Each requires a quadratic-residue test and, when appropriate, one square root in \(\mathbb F_p\). A single certified quadratic nonresidue can be found by uniform sampling: exactly half of the nonzero field elements are nonsquares, so the expected number of trials is 2. Reuse that nonresidue for Tonelli–Shanks on all abscissae.
 
-With standard binary finite-field arithmetic, each residue test and Tonelli–Shanks square root costs \(\operatorname{polylog}p\) bit operations. Therefore
+With standard binary finite-field arithmetic, each residue test and Tonelli–Shanks square root costs \(\operatorname{polylog}p\) bit operations. Therefore, on every dilation,
 
 \[
 T_{\rm factorbase}=O(X\operatorname{polylog}p)
-=O(f\operatorname{polylog}N)
 \tag{8}
 \]
 
-on a good dilation. The number of good-dilation attempts has constant expectation because the good-dilation probability is at least \(1/8\).
+and this is \(O(N^{1/15}\operatorname{polylog}N)\). On good dilations it is also \(O(f\operatorname{polylog}N)\). The number of good-dilation attempts has constant expectation because the good-dilation probability is at least \(1/8\).
 
 ### 5.2 Computing each masked target
 
@@ -180,15 +175,15 @@ There are \(f\) scalar multiplications by integers of \(O(\log N)\) bits. Binary
 O(f\operatorname{polylog}N).
 \]
 
-The fixed cap is \(O(C_{15}(f+s))\) raw probes. Hence all upper masked-target computations cost
+The fixed cap is \(O(C_{15}(f+s))=O(C_{15}(X+s))\) raw probes, since \(f\le2X\) on every dilation. Hence all upper masked-target computations cost
 
 \[
 O(C_{15}f(f+s)\operatorname{polylog}N)
-=O(f^2\operatorname{polylog}N),
+=O(X^2\operatorname{polylog}N),
 \tag{9}
 \]
 
-because \(s=\operatorname{polylog}N=o(f)\). Lower probes and coordinate-target probes require only a constant number of scalar multiplications and are cheaper.
+using \(f\le2X\) and \(s=\operatorname{polylog}N=o(X)\). On good dilations this is also \(O(f^2\operatorname{polylog}N)\). Lower probes and coordinate-target probes require only a constant number of scalar multiplications and are cheaper.
 
 ### 5.3 Modular left inverse
 
@@ -199,13 +194,16 @@ The upper matrix \(B_{\rm top}\) has \(h=f+2\) rows and \(f\) columns over \(\ma
 3. Its inverse gives a local left inverse \(L_\ell\).
 4. Entrywise CRT combines the local inverses into \(L\) with \(LB_{\rm top}=I_f\pmod N\).
 
-There are at most \(\log_2N\) distinct prime divisors. Naive elimination costs \(O(f^3)\) ring operations per prime power, and each ring operation on \(O(\log N)\)-bit residues costs \(\operatorname{polylog}N\). Therefore
+There are at most \(\log_2N\) distinct prime divisors. Naive elimination costs \(O(f^3)\) ring operations per prime power, and each ring operation on \(O(\log N)\)-bit residues costs \(\operatorname{polylog}N\). Therefore, on every attempt,
 
 \[
-\boxed{T_{\rm left-inverse}=O(f^3\operatorname{polylog}N)
-=N^{1/5+o(1)}.}
+T_{\rm left-inverse}=O(f^3\operatorname{polylog}N)
+=O(X^3\operatorname{polylog}N)
+=N^{1/5+o(1)},
 \tag{10}
 \]
+
+whenever the left-inverse routine is reached. On good dilations \(f=\Theta(X)\), so this bound is attained at the stated scale.
 
 The exact success probability, for the fixed batch of \(h=f+2\) iid uniform rows, is
 
@@ -230,10 +228,10 @@ M=[\mu_1\ \cdots\ \mu_s\mid NI_3]
 
 Its binary input length is \(O((s+3)\log N)=\operatorname{polylog}N\). By X267, the proof-level Kannan–Bachem rectangular HNF followed by \(3\times3\) SNF costs \(\operatorname{polylog}N=N^{o(1)}\) bit operations. The existing custom Python producer is not thereby certified; the algorithm specification must use the Kannan–Bachem route or separately prove the custom routine's bounds.
 
-Combining (8)–(10), lower-sample construction, and X267, all relation-processing work in one capped attempt is
+Combining (8)–(10), lower-sample construction, and X267, all relation-processing work in one capped attempt, whether or not its dilation is good, is bounded by
 
 \[
-\boxed{T_{\rm relations}=O(f^3\operatorname{polylog}N)
+\boxed{T_{\rm relations}=O(X^3\operatorname{polylog}N)
 =N^{1/5+o(1)}.}
 \tag{11}
 \]
@@ -361,7 +359,7 @@ The bound is independent of \(N\). All failed attempts are detected by a cap, a 
 
 ## 8. Complete bit-cost ledger
 
-Let \(f=\Theta(N^{1/15})\) on good dilations. The costs per capped attempt are:
+Let \(X=\Theta(N^{1/15})\) always and \(f\le2X\) always; on good dilations \(f=\Theta(X)\). The costs per capped attempt are upper-bounded as follows, including attempts on bad dilations:
 
 | Component | Bit cost |
 |---|---:|
@@ -375,13 +373,7 @@ Let \(f=\Theta(N^{1/15})\) on good dilations. The costs per capped attempt are:
 | Relation HNF/SNF via X267 | \(\operatorname{polylog}N\) |
 | Point-order checks, Miller/Weil, CRT, final scalar check | \(\operatorname{polylog}N\) expected |
 
-Since
-
-\[
-f^3=\Theta(N^{3/15})=\Theta(N^{1/5}),
-\]
-
-the matrix left-inverse step costs \(N^{1/5}\operatorname{polylog}N\). The factorisation cost is \(N^{1/5+o(1)}\). Every other contribution is smaller:
+Since \(f\le2X\), every attempt's matrix step costs at most \(O(X^3\operatorname{polylog}N)\), and on good dilations \(f=\Theta(X)\). In particular \(X^3=\Theta(N^{3/15})=\Theta(N^{1/5})\), so the matrix left-inverse step is bounded by \(N^{1/5}\operatorname{polylog}N\). The factorisation cost is \(N^{1/5+o(1)}\). Every other contribution is smaller:
 
 \[
 f^2\operatorname{polylog}N=N^{2/15+o(1)},
