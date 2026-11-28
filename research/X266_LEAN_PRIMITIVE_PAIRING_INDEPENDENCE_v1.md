@@ -2,7 +2,8 @@
 
 **Repository:** `Slait/fast-ecdlp`  
 **Branch:** `work/x268-pairing-basis-lean-v1`  
-**Latest commit:** `4fdd80d2ad9be68157559125e5213685fd80be31`  
+**Latest code commit:** `35cc98a9242fb4d811a26c2d8bc2e53296aed0f2`  
+**Verify integration commit:** `4fdd80d2ad9be68157559125e5213685fd80be31`  
 **Lean project:** `v2/lean`  
 **Toolchain:** `leanprover/lean4:v4.35.0`  
 **Status:** proof source added; **not compiled in this environment**.
