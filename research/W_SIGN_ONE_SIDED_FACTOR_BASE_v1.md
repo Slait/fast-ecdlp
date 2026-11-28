@@ -191,15 +191,15 @@ Use the exact secp256k1 field prime and group order. For the production interval
 - \(X=B-1=2^{32}-1\);
 - \(D'_8=15\cdot2^{14}=245{,}760\);
 - \(8!+2D'_8=531{,}840\);
-- optimize (9) over \(\epsilon\), giving \(\epsilon\approx0.0007401769522\);
-- \(\delta\approx0.0055247467554\), so \(\rho\approx0.994475253245\);
+- optimize (9) over \(\epsilon\), giving \(\epsilon\approx0.0007401769676\);
+- \(\delta\approx0.0055247465260\), so \(\rho\approx0.994475253474\);
 - \(f_{\min}\approx2.1458941296\cdot10^9\).
 
 Substitution in (9), using the exact \(p,n,X\), gives
 \[
-\boxed{\log_2N_{\rm probes}\le68.04465\text{ (expected target probes).}}
+\boxed{\log_2N_{\rm probes}\le68.0446490611\text{ (expected target probes).}}
 \]
-The sparse matrix dimension is at most \(f_{\max}\approx2.1490731654\cdot10^9\). Wiedemann with \(O(f)\) sparse matvecs and \(O(mf)\) nonzeros per matvec costs \(O(mf^2)\), whose leading field-operation exponent is at most \(2^{65.01}\).
+The sparse matrix dimension is at most \(f_{\max}\approx2.1490731654\cdot10^9\). Wiedemann with \(O(f)\) sparse matvecs and \(O(mf)\) nonzeros per matvec costs \(O(mf^2)\), whose leading field-operation exponent is at most \(2^{65.00214}\).
 
 For comparison, interval BSGS at \(W=2^{140}\) takes on the order of \(2^{70}\) group operations. The *number of relation-target probes* is below that count by about \(1.96\) bits. This is **not** a finite runtime comparison: each target probe invokes the \(p^{o(1)}\) decomposition/counting engine, whose finite constants are not known and whose upstream crossover is astronomically beyond cryptographic sizes. No practical secp256k1 speedup is claimed.
 
