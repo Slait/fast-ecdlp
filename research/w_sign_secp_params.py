@@ -85,7 +85,7 @@ def main():
     print("secp256k1 n =", hex(N))
     print("p mod 3 =", P % 3)
     print("Legendre(7,p) =", pow(7, (P - 1) // 2, P))
-    for m in (8, 16):
+    for m in (8, 16, 17):
         r = optimise(m)
         assert r["X"] >= 12 * m
         assert r["X"] < P // 3
@@ -93,8 +93,12 @@ def main():
 
     r8 = optimise(8)
     r16 = optimise(16)
+    r17 = optimise(17)
     assert abs(r8["expected_probe_log2"] - 68.0446490611) < 1e-7
     assert abs(r16["expected_probe_log2"] - 94.9344146448) < 1e-7
+    assert abs(r17["expected_probe_log2"] - 100.6162690291) < 1e-7
+    assert abs(r16["sparse_m_f2_log2"] - 34.0740886734) < 1e-7
+    assert abs(r17["sparse_m_f2_log2"] - 32.2977169695) < 1e-7
     print("PASS: W-SIGN secp256k1 finite-parameter arithmetic")
 
 
