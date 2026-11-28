@@ -7,7 +7,7 @@ name: Lean proof check
 
 on:
   push:
-    branches: [main]
+    branches: [main, w1s-lean-keep-relaxation]
   workflow_dispatch:
 
 permissions:
