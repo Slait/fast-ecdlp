@@ -2,8 +2,8 @@
 
 **Repository:** `Slait/fast-ecdlp`  
 **Branch:** `work/x268-pairing-basis-lean-v1`  
-**Latest code commit:** `35cc98a9242fb4d811a26c2d8bc2e53296aed0f2`  
-**Verify integration commit:** `87ab891e8c56734719c0eecb4d0df746d531d724`  
+**Latest code commit:** `ecee1951f8da82d78666faf30c928f05f6f0c337`  
+**Verify integration commit:** `0c6e9de4d47b38400cdb19b6da3bf4c697a075dd`  
 **Lean project:** `v2/lean`  
 **Toolchain:** `leanprover/lean4:v4.35.0`  
 **Status:** proof source added; **not compiled in this environment**.
@@ -44,6 +44,7 @@ The order premise is the semantic exact-order predicate: \(e(U,V)^n=1\), and no 
 
    is injective.
 6. `coordinateCombination_card`: its image has exactly \(n^2\) elements.
+7. `WeilBasisCertificate.U_has_exact_order` and `V_has_exact_order`: the two n-torsion points themselves have exact additive order n.
 
 The certificate structure also records \(nU=nV=0\), as required for the X266 application. The injectivity proof itself uses the primitive pairing value and the pairing laws.
 
