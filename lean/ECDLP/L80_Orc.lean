@@ -88,7 +88,7 @@ theorem oraC_keep (m S : ℕ) (hS : 1400 ≤ S) (eng : Cmd) : Keep (oraC m S eng
     · have := (h1.2 a hm).1; omega
     · have := (h2.2 a hm).1; omega
     · have := shift_war S eng a hm; omega
-  exact ⟨fun st i hi h3 => Cmd.run_sc_frame _ st i (hsc i hi h3), fun st a ha => Cmd.run_ar_frame _ st a (har a ha)⟩
+  exact ⟨fun st i hi h3 => Cmd.run_sc_frame _ st i (hsc i hi h3), fun st a ha => Cmd.run_ar_frame _ st a (har a (by omega))⟩
 
 /-! ### the state after `checkC ; frameW` -/
 
