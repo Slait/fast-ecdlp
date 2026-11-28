@@ -1,4 +1,6 @@
 import ECDLPArtifact
+import ECDLP.L49_DilationProof
+import ECDLP.L49_HasseMoment
 
 /-! Axiom check for the main theorem and every theorem named in the paper's Lean table.
 Expected output for each line: `[propext, Classical.choice, Quot.sound]`. -/
@@ -59,6 +61,14 @@ example : ∀ m : ℕ, type_of% (ECDLP.subexponentialRate m) := ECDLP.L104R.sube
 #print axioms ECDLP.L49.dilEquiv
 #print axioms ECDLP.L49.dlp_transfer
 #print axioms ECDLP.L49.corollary4_coverage
+
+-- L49 formal reductions (the polynomial witness and the sharp pair-correlation bound remain inputs)
+#print axioms ECDLP.L49.card_filter_roots_le_two_mul_natDegree
+#print axioms ECDLP.L49.invSq_fiber_two
+#print axioms ECDLP.L49.dilationNondeg_of_polynomialWitness
+#print axioms ECDLP.L49.factorBase_moment_eq_pairCorrelation
+#print axioms ECDLP.L49.factorBaseVar_of_pairCorrelation
+#print axioms ECDLP.L49.factorBaseVar_trivial
 
 -- Statement audit examples (L105): lexLeast 2 decided in the kernel for p = 13
 #print axioms two_iff

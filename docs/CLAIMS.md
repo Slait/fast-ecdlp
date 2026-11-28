@@ -39,11 +39,11 @@ Status labels:
 
 | Claim | Status | Evidence |
 |---|---|---|
-| Theorem 3 (fraction c_m(κ) of points decompose on a random model E_u) | PROVED-paper + reviewed; skeleton in LEAN with hypotheses `DilationNondeg` (Lemma N′) and `FactorBaseVar` (Lemma F) | `lean/ECDLP/L49_*.lean` (`dilEquiv`, `dlp_transfer`, `corollary4_coverage`) |
+| Theorem 3 (fraction c_m(κ) of points decompose on a random model E_u) | PROVED-paper + reviewed; skeleton in LEAN with hypotheses `DilationNondeg` (Lemma N′) and `FactorBaseVar` (Lemma F). The new files formalise reductions, but do not yet discharge either sharp input. | `lean/ECDLP/L49_*.lean` (`dilEquiv`, `dlp_transfer`, `corollary4_coverage`), `L49_DilationProof.lean`, `L49_HasseMoment.lean` |
 | Lemma W (weights) | PROVED-paper + reviewed; CHECKED | `scripts/coverage/energy/check_weight.py` |
 | Lemma "squares" | PROVED-paper + reviewed; CHECKED (161,084 cases) | `scripts/coverage/curves_a0/check_roots.py` |
-| Lemma N′ (root count) and the energy proposition | PROVED-paper + reviewed; CHECKED | `scripts/coverage/dilates/` |
-| Lemma F | PROVED-paper + reviewed; CHECKED (ratio ≤ 13) | `scripts/coverage/curves_a0/lemmaF_check.py` |
+| Lemma N′ (root count) and the energy proposition | PROVED-paper + reviewed; CHECKED. LEAN now proves the `2D'` root-count reduction from an explicit nonzero dilation-polynomial witness; constructing that witness from Semaev polynomials remains open. | `scripts/coverage/dilates/`, `lean/ECDLP/L49_DilationProof.lean` |
+| Lemma F | PROVED-paper + reviewed; CHECKED (ratio ≤ 13). LEAN proves the exact pair-correlation expansion and the coarse unconditional bound `c = |T|`; the sharp bound still requires the off-diagonal genus-two sextic Weil estimate. | `scripts/coverage/curves_a0/lemmaF_check.py`, `lean/ECDLP/L49_HasseMoment.lean` |
 | A = 0 needs X < p/3 (full orbit: 243 values of s at p = 1033, B = 3) | PROVED-paper + reviewed; CHECKED | `scripts/coverage/curves_a0/a0_*.py` |
 | Constant c_m(κ) | CHECKED | `scripts/coverage/semaev/check_cm.py` |
 | Average-over-curves variant (Remark after Theorem 4) | Skeleton LEAN with hypothesis `SemaevNondeg` (`sq_card_le_sums_mul_energy`, `las_vegas_success`, `coverage_oracle`) | `lean/ECDLP/L40_*.lean`, `L43_*.lean`, `L46_*.lean` |

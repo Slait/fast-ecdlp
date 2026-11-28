@@ -13,7 +13,7 @@ The Lean modules in `lean/ECDLP/` are named after the work packages that produce
 | `L43` | Coverage, average over curves: assembly over a finite field | 3 |
 | `L44` | One network for the whole integer system; value = count | 11 |
 | `L46` | Coverage, average over curves: Las Vegas step and oracle link | 8 |
-| `L49` | Coverage for a fixed curve over random isomorphic models | 6 |
+| `L49` | Fixed-curve coverage; polynomial-root reduction and factor-base moment identity | 8 |
 | `L51` | Strings and prefixes of decompositions | 5 |
 | `L54` | Broadcast network (correct, but too large for the engine) | 5 |
 | `L56` | The edge network: value = count, search returns lexLeast | 4 |
