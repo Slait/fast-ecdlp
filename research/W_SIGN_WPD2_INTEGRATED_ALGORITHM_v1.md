@@ -129,7 +129,11 @@ N_{\rm probes}
 
 ## 6. Sparse linear algebra
 
-Each row of \(T_0\) has at most m nonzero entries; \(B_0=T_0-\nu I\) has at most m+1. Sparse Wiedemann/Berlekamp–Massey solves \(B_0^Ty=r^T\) using \(O(f)\) sparse matrix-vector products, each \(O(mf)\), for \(O(mf^2)\) field operations. A streaming/two-pass implementation stores the sparse rows plus \(O(f)\) field-element scratch; it must not retain all Krylov vectors. The upstream toy solver currently stores \(f+1\) full vectors and therefore uses \(O(f^2)\) memory; that implementation is not production-suitable. Verify the solution exactly and retry with fresh random projections on a failed verification. A full finite expected bit-cost audit of this solver is still required.
+Each row of \(T_0\) has at most m nonzero entries; \(B_0=T_0-\nu I\) has at most m+1. Sparse Wiedemann/Berlekamp–Massey solves \(B_0^Ty=r^T\). Put \(A=B_0^T\), \(b=r^T\), choose a random projection vector \(w\), and form \(s_j=w^TA^jb\) for \(0\le j<2f\). Berlekamp–Massey returns \(C_0=1,C_1,\ldots,C_L\). If \(C_L\ne0\), form
+\[
+y=-C_L^{-1}\sum_{j=0}^{L-1}C_{L-1-j}A^jb,
+\]
+then verify \(Ay=b\) exactly. On a nonsingular A, the standard Wiedemann projection succeeds with probability at least \(1-f/n\); use R independent projections, so the probability all fail is at most \((f/n)^R\). The exact residual check makes the solver Las Vegas: an incorrect candidate is rejected, never used. A streaming/two-pass implementation stores the sparse rows plus \(O(f)\) field-element scratch; it must not retain all Krylov vectors. The upstream toy solver currently stores \(f+1\) full vectors and therefore uses \(O(f^2)\) memory; that implementation is not production-suitable. A new streaming toy referee is in research/toy_w_sign_one_sided_wiedemann.py. A full finite expected bit-cost audit of this solver is still required.
 
 For fixed m, \(f=\Theta(p^{1/m})\), so the algebraic solve is \(p^{2/m+o(1)}\). The target-probe count is as in (9); each probe invokes the \(p^{o(1)}\) decomposition/counting engine.
 
