@@ -129,4 +129,86 @@ theorem no_small_nontrivial_relation
   · rcases hdb with ⟨q, hq⟩
     omega
 
+/-- Equality of two powers below the exact order forces equality of
+exponents. -/
+theorem exactOrder_pow_injective {η : H} {n a b : ℕ}
+    (hη : HasExactOrder η n) (ha : a < n) (hb : b < n)
+    (hpow : η ^ a = η ^ b) : a = b := by
+  by_cases hab : a ≤ b
+  · have hdecomp : a + (b - a) = b := by omega
+    have hmul : η ^ a * η ^ (b - a) = η ^ a := by
+      calc
+        η ^ a * η ^ (b - a) = η ^ (a + (b - a)) := by rw [pow_add]
+        _ = η ^ b := by rw [hdecomp]
+        _ = η ^ a := hpow.symm
+    have hdiff : η ^ (b - a) = 1 := by
+      have hmul' : η ^ a * η ^ (b - a) = η ^ a * 1 := by
+        simpa using hmul
+      exact mul_left_cancel hmul'
+    have hdiv := exactOrder_dvd hη hdiff
+    have hlt : b - a < n := by omega
+    rcases hdiv with ⟨q, hq⟩
+    omega
+  · have hba : b ≤ a := by omega
+    have hdecomp : b + (a - b) = a := by omega
+    have hmul : η ^ b * η ^ (a - b) = η ^ b := by
+      calc
+        η ^ b * η ^ (a - b) = η ^ (b + (a - b)) := by rw [pow_add]
+        _ = η ^ a := by rw [hdecomp]
+        _ = η ^ b := hpow
+    have hdiff : η ^ (a - b) = 1 := by
+      have hmul' : η ^ b * η ^ (a - b) = η ^ b * 1 := by
+        simpa using hmul
+      exact mul_left_cancel hmul'
+    have hdiv := exactOrder_dvd hη hdiff
+    have hlt : a - b < n := by omega
+    rcases hdiv with ⟨q, hq⟩
+    omega
+
+/-- The n-by-n coefficient map associated with two n-torsion points. -/
+def coordinateCombination (n : ℕ) (U V : G) :
+    Fin n × Fin n → G :=
+  fun ab => ab.1.val • U + ab.2.val • V
+
+/-- A primitive alternating pairing makes the coefficient map injective.
+Consequently the n-squared coefficient pairs give n-squared distinct group
+elements. -/
+theorem coordinateCombination_injective
+    (e : WeilPairingLaws G H) {n : ℕ} (U V : G)
+    (hη : HasExactOrder (e.value U V) n) :
+    Function.Injective (coordinateCombination n U V) := by
+  intro x y hxy
+  have hpairV := congrArg (fun z : G => e.value z V) hxy
+  change e.value (x.1.val • U + x.2.val • V) V =
+    e.value (y.1.val • U + y.2.val • V) V at hpairV
+  simp only [e.value_add_left, e.value_nsmul_left,
+    e.value_alternating, one_pow, mul_one] at hpairV
+  have hA : (e.value U V) ^ x.1.val = (e.value U V) ^ y.1.val := by
+    simpa using hpairV
+
+  have hpairU := congrArg (fun z : G => e.value z U) hxy
+  change e.value (x.1.val • U + x.2.val • V) U =
+    e.value (y.1.val • U + y.2.val • V) U at hpairU
+  simp only [e.value_add_left, e.value_nsmul_left,
+    e.value_alternating, one_pow, one_mul] at hpairU
+  have hskew : e.value V U = (e.value U V)⁻¹ := e.value_skew U V
+  simp_rw [hskew] at hpairU
+  have hB : (e.value U V) ^ x.2.val = (e.value U V) ^ y.2.val := by
+    have hInv : ((e.value U V) ^ x.2.val)⁻¹ =
+        ((e.value U V) ^ y.2.val)⁻¹ := by
+      simpa [inv_pow] using hpairU
+    simpa using congrArg Inv.inv hInv
+
+  have h1 := exactOrder_pow_injective hη x.1.isLt y.1.isLt hA
+  have h2 := exactOrder_pow_injective hη x.2.isLt y.2.isLt hB
+  exact Prod.ext (Fin.ext h1) (Fin.ext h2)
+
+/-- The image of the coefficient map has exactly n squared elements. -/
+theorem coordinateCombination_card
+    (e : WeilPairingLaws G H) {n : ℕ} (U V : G)
+    (hη : HasExactOrder (e.value U V) n) :
+    (Finset.univ.image (coordinateCombination n U V)).card = n * n := by
+  rw [Finset.card_image_of_injective _ (coordinateCombination_injective e U V hη)]
+  simp
+
 end ECDLPv2.L266
