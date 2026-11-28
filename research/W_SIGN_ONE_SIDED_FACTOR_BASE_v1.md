@@ -203,11 +203,7 @@ The sparse matrix dimension is at most \(f_{\max}\approx2.1490731654\cdot10^9\).
 
 For comparison, interval BSGS at \(W=2^{140}\) takes on the order of \(2^{70}\) group operations. The *number of relation-target probes* is below that count by about \(1.96\) bits. This is **not** a finite runtime comparison: each target probe invokes the \(p^{o(1)}\) decomposition/counting engine, whose finite constants are not known and whose upstream crossover is astronomically beyond cryptographic sizes. No practical secp256k1 speedup is claimed.
 
-For the test interval \(W=2^{67}\), the smallest \(m\) making the sparse \(p^{2/m}\) matrix exponent beat \(2^{33.5}\) is \(m=16\). With \(B=65{,}536\), \(X=65{,}535\), the same optimized bound gives
-\[
-\log_2N_{\rm probes}\le94.93442,
-\]
-far above interval BSGS \(2^{33.5}\). Thus W-SIGN improves the production branch only; it does not rescue the \(2^{67}\) interval.
+For the test interval \(W=2^{67}\), the leading exponent \(p^{2/m}\) first falls below \(2^{33.5}\) at \(m=16\), but the explicit sparse-solver factor \(m\) matters at this finite size: the bound \(O(mf^2)\) is \(2^{34.0741}\) field operations for \(m=16\), slightly above BSGS. Taking \(m=17\) brings the explicit sparse field-operation scale to \(2^{32.2977}\), but the optimized expected probe bound is \(\log_2N_{\rm probes}\le100.61627\), still far above interval BSGS \(2^{33.5}\). Thus W-SIGN improves the production branch only; it does not rescue the \(2^{67}\) interval.
 
 ## 8. Toy referee on E/F_163
 
