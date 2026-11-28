@@ -25,7 +25,7 @@ noncomputable section
 namespace ECDLP.L132
 
 open ECDLP ECDLP.L61 ECDLP.L70 ECDLP.L77 ECDLP.L78 ECDLP.L80
-  ECDLP.L85B ECDLP.L92 ECDLP.L113 ECDLP.L115
+  ECDLP.L85A ECDLP.L85B ECDLP.L92 ECDLP.L113 ECDLP.L115
   Factoring.Aux Factoring.Aux.Copied Factoring.Aux.Copied.PLib
   Factoring.Aux.Ex Computability
 
@@ -212,56 +212,54 @@ theorem keep_finishC :
       ECDLP.L113.mulCmd, ECDLP.L113.modIn, Cmd.war] at hm
     omega
 
-theorem keep_swpBody (S RN RD : ℕ) (U : ECDLP.L115.UParts)
-    (hS : 10 ≤ S) (hRN : 2 ≤ RN) (hRD : 2 ≤ RD) :
-    Keep (ECDLP.L115.swpBody S RN RD U) := by
+theorem keep_swpBody (S : ℕ) (U : UParts) (hS : 10 ≤ S) :
+    Keep (ECDLP.L115.swpBody S 110 111 U) := by
   unfold ECDLP.L115.swpBody
   apply keep_seq
   · exact keep_copy (by omega)
   · apply keep_seq
-    · exact keep_shift S hS (ECDLP.L115.modBodyR U)
+    · exact keep_shift S hS _
     · apply keep_seq
-      · exact keep_wr hRN
-      · exact keep_wr hRD
+      · exact keep_wr (by norm_num)
+      · exact keep_wr (by norm_num)
 
-theorem keep_swpC (S RN RD : ℕ) (U : ECDLP.L115.UParts)
-    (hS : 10 ≤ S) (hRN : 2 ≤ RN) (hRD : 2 ≤ RD) :
-    Keep (ECDLP.L115.swpC S RN RD U) := by
+theorem keep_swpC (S : ℕ) (U : UParts) (hS : 10 ≤ S) :
+    Keep (ECDLP.L115.swpC S 110 111 U) := by
   unfold ECDLP.L115.swpC
   apply keep_seq
-  · exact keep_shift S hS (ECDLP.L115.setup U)
+  · exact keep_shift S hS _
   · apply keep_seq
-    · exact keep_shift S hS (cset ECDLP.L115.mE 314)
+    · exact keep_shift S hS _
     · apply keep_seq
       · exact keep_copy (by omega)
       · exact keep_loop (b := 852) (c := 851) (by omega)
-          (keep_swpBody S RN RD U hS hRN hRD)
+          (keep_swpBody S U hS)
 
-theorem keep_longC (S RN RD : ℕ) (U : ECDLP.L115.UParts)
-    (X1 X2 Pa T Q R TM ONE : ℕ) (hS : 10 ≤ S) (hRN : 2 ≤ RN) (hRD : 2 ≤ RD)
-    (hQ : 2 ≤ Q) (hX1 : 2 ≤ X1) (hX2 : 2 ≤ X2) (hP : 2 ≤ Pa) (hT : 2 ≤ T)
-    (hR : 2 ≤ R) (hTM : 2 ≤ TM) (hONE : 2 ≤ ONE) :
-    Keep (ECDLP.L115.longC S RN RD U X1 X2 Pa T Q R TM ONE) := by
+theorem keep_longC (S : ℕ) (U : UParts) (hS : 10 ≤ S) :
+    Keep (ECDLP.L115.longC S 110 111 U 100 101 102 103 2 104 105 106) := by
   unfold ECDLP.L115.longC
-  exact keep_seq (keep_swpC S RN RD U hS hRN hRD)
+  exact keep_seq (keep_swpC S U hS)
     (keep_seq keep_prepC keep_finishC)
 
-theorem keep_cntShort (r S : ℕ) (hS : 10 ≤ S) : Keep (ECDLP.L132.cntShort r S) := by
-  unfold ECDLP.L132.cntShort ECDLP.L132.cntShortG
+theorem keep_cntShortG (r S T w : ℕ) (hS : 10 ≤ S) :
+    Keep (ECDLP.L132.cntShortG r S T w) := by
+  unfold ECDLP.L132.cntShortG
   apply keep_seq
-  · exact keep_shift S hS (ECDLP.L115.lookCnt (r + 1) (ECDLP.L115.T1 r))
+  · exact keep_shift S hS _
   · apply keep_seq
     · exact keep_copy (by omega)
     · apply keep_seq
-      · exact keep_toBitsC (r * ECDLP.L115.T1 r + 1)
+      · exact keep_toBitsC w
       · exact keep_lenC
+
+theorem keep_cntShort (r S : ℕ) (hS : 10 ≤ S) : Keep (ECDLP.L132.cntShort r S) := by
+  unfold ECDLP.L132.cntShort
+  exact keep_cntShortG r S _ _ hS
 
 theorem keep_cntLong (r S : ℕ) (hS : 10 ≤ S) :
     Keep (ECDLP.L132.cntLong r S) := by
   unfold ECDLP.L132.cntLong
-  exact keep_longC S 110 111 (ECDLP.L115.realU r) 100 101 102 103 2 104 105 106
-    hS (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
-    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  exact keep_longC S (realU r) hS
 
 theorem keep_cntBr (r S : ℕ) (hS : 10 ≤ S) : Keep (ECDLP.L132.cntBr r S) := by
   unfold ECDLP.L132.cntBr
