@@ -128,7 +128,7 @@ N_{\rm probes}
 
 ## 6. Sparse linear algebra
 
-Each row of \(T_0\) has at most m nonzero entries; \(B_0=T_0-\nu I\) has at most m+1. Sparse Wiedemann/Berlekamp–Massey solves \(B_0^Ty=r^T\) using \(O(f)\) sparse matrix-vector products, each \(O(mf)\), for \(O(mf^2)\) field operations and \(O(mf)\) storage. Verify the solution exactly and retry with fresh random projections on a failed verification. A full finite expected bit-cost audit of this solver is still required.
+Each row of \(T_0\) has at most m nonzero entries; \(B_0=T_0-\nu I\) has at most m+1. Sparse Wiedemann/Berlekamp–Massey solves \(B_0^Ty=r^T\) using \(O(f)\) sparse matrix-vector products, each \(O(mf)\), for \(O(mf^2)\) field operations. A streaming/two-pass implementation stores the sparse rows plus \(O(f)\) field-element scratch; it must not retain all Krylov vectors. The upstream toy solver currently stores \(f+1\) full vectors and therefore uses \(O(f^2)\) memory; that implementation is not production-suitable. Verify the solution exactly and retry with fresh random projections on a failed verification. A full finite expected bit-cost audit of this solver is still required.
 
 For fixed m, \(f=\Theta(p^{1/m})\), so the algebraic solve is \(p^{2/m+o(1)}\). The target-probe count is as in (9); each probe invokes the \(p^{o(1)}\) decomposition/counting engine.
 
@@ -139,7 +139,7 @@ For production \(W=2^{140}\), choose m=8:
 \log_2 N_{\rm probes}\le68.0446490611,\qquad
 \log_2(mf_{\max}^2)\le65.0021349086.
 \]
-The interval BSGS scale is \(2^{70}\). This is only a relation-probe count comparison; it is not a total runtime comparison because the finite cost per count-oracle call is not calibrated. The upstream v2 paper explicitly states that its asymptotic crossover is far beyond cryptographic sizes.
+Here \(f_{\max}\approx2.1491\cdot10^9\). Storing m 32-bit factor-base indices per row alone takes about 68.8 GB (64 GiB); row/solver vectors each contain about 2.15 billion 256-bit field elements, about 68.8 GB apiece. Thus even an O(mf)-memory implementation needs a multi-hundred-GB memory budget once Krylov/Berlekamp–Massey state and the sparse relation rows are included. The upstream toy Wiedemann code stores all Krylov vectors and is O(f^2) memory; it must be replaced by a streaming two-pass solver. The interval BSGS scale is \(2^{70}\). This is only a relation-probe count comparison; it is not a total runtime comparison because the finite cost per count-oracle call is not calibrated. The upstream v2 paper explicitly states that its asymptotic crossover is far beyond cryptographic sizes.
 
 For test \(W=2^{67}\), m=17 is the first value whose explicit \(O(mf^2)\) field-operation estimate falls below \(2^{33.5}\), but its expected probe count is \(\log_2 N_{\rm probes}\le100.6162690291\). This branch does not solve the test interval.
 
