@@ -124,9 +124,13 @@ theorem no_small_nontrivial_relation
   obtain ⟨hda, hdb⟩ :=
     relation_coefficients_divisible e cert.pairing_exact_order hrel
   constructor
-  · rcases hda with ⟨q, hq⟩
+  · by_contra hne
+    have hpos : 0 < a := Nat.pos_of_ne_zero hne
+    have hle : n ≤ a := Nat.le_of_dvd hpos hda
     omega
-  · rcases hdb with ⟨q, hq⟩
+  · by_contra hne
+    have hpos : 0 < b := Nat.pos_of_ne_zero hne
+    have hle : n ≤ b := Nat.le_of_dvd hpos hdb
     omega
 
 /-- Equality of two powers below the exact order forces equality of
@@ -147,7 +151,9 @@ theorem exactOrder_pow_injective {η : H} {n a b : ℕ}
       exact mul_left_cancel hmul'
     have hdiv := exactOrder_dvd hη hdiff
     have hlt : b - a < n := by omega
-    rcases hdiv with ⟨q, hq⟩
+    by_contra hne
+    have hpos : 0 < b - a := Nat.pos_of_ne_zero hne
+    have hle : n ≤ b - a := Nat.le_of_dvd hpos hdiv
     omega
   · have hba : b ≤ a := by omega
     have hdecomp : b + (a - b) = a := by omega
@@ -162,7 +168,9 @@ theorem exactOrder_pow_injective {η : H} {n a b : ℕ}
       exact mul_left_cancel hmul'
     have hdiv := exactOrder_dvd hη hdiff
     have hlt : a - b < n := by omega
-    rcases hdiv with ⟨q, hq⟩
+    by_contra hne
+    have hpos : 0 < a - b := Nat.pos_of_ne_zero hne
+    have hle : n ≤ a - b := Nat.le_of_dvd hpos hdiv
     omega
 
 /-- The n-by-n coefficient map associated with two n-torsion points. -/
