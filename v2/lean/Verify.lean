@@ -14,6 +14,7 @@ import ECDLPv2.L119_WMain
 import ECDLPv2.L149_Sched
 import ECDLPv2.L173_E0Quarter
 import ECDLPv2.L265_SNFWeil
+import ECDLPv2.L266_BasisIndependence
 
 /-! Axiom check for the theorems added in version 2 of the paper.
 Expected output for each line: [propext, Classical.choice, Quot.sound]. -/
@@ -47,6 +48,11 @@ example : ∀ m : ℕ, type_of% (ECDLP109.countingRate m) := ECDLP.L132.counting
 #print axioms ECDLP.L265.verifySNFCertificate_sound
 #print axioms ECDLP.L265.verifyX265SNFCertificate_sound
 #print axioms ECDLP.L265.verifyWeilTranscript_sound
+
+-- Primitive Weil pairing forces independence of the two candidate generators (X266).
+#print axioms ECDLPv2.L266.exactOrder_dvd
+#print axioms ECDLPv2.L266.relation_coefficients_divisible
+#print axioms ECDLPv2.L266.no_small_nontrivial_relation
 
 -- Crossover arithmetic of the engine schedules (Section Where the guarantee starts to win).
 #print axioms L149.G1_arith_paper
