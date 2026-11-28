@@ -63,15 +63,19 @@ Oracle soundness gives the exact group identities
 \[
 B_0F=A_0V,\qquad rF=a_0V,\qquad V=(P,Q)^T.
 \]
-If \(B_0\) is invertible, then \(F=B_0^{-1}A_0V\), hence
+Do not form \(B_0^{-1}\). Instead solve the sparse linear system
 \[
-\mu:=a_0-rB_0^{-1}A_0=(u,v)\in\ker(\operatorname{ev}).
+B_0^T y=r^T.
+\]
+If the solver returns a vector with an exactly verified residual, then \(y^TB_0=r\). Multiplying \(B_0F=A_0V\) by \(y^T\) gives \(rF=y^TA_0V\). The final row gives \(rF=a_0V\), so
+\[
+\mu:=a_0-y^TA_0=(u,v)\in\ker(\operatorname{ev}).
 \]
 If \(\mu\ne0\), then \(v\ne0\) and
 \[
 \boxed{k=-u\,v^{-1}\pmod n.}
 \]
-Always verify \([k]P=Q\). A singular matrix or zero \(\mu\) causes a fresh round; it never produces a wrong accepted answer.
+Always verify \([k]P=Q\). A singular \(B_0\) may still admit a verified solution and is then safe; if no verified solution is found, or \(\mu=0\), retry. No unverified solution is ever accepted.
 
 ## 4. Failure probabilities
 
@@ -85,12 +89,9 @@ where \(\chi_{T_0}\) is monic of degree f. It has at most f roots in \(\mathbb F
 \[
 \Pr[B_0\text{ singular}]\le f/n.
 \]
+This is a sufficient bound for solvability: whenever \(B_0\) is nonsingular, the system \(B_0^Ty=r^T\) has a unique solution. A singular matrix may also be consistent; any solution with an exactly verified residual is safe by the algebra above.
 
-For the final unplanted accepted row, condition on its accepted target. The tag \(a_0\) is uniform in the affine fibre of ev over that target, i.e. a coset of \(\ker(\operatorname{ev})\). The transcript and \(rB_0^{-1}A_0\) are fixed under this conditioning. Subtracting this fixed vector leaves \(\mu\) uniform in the one-dimensional kernel, hence
-\[
-\Pr[\mu=0\mid B_0\text{ invertible}]=1/n.
-\]
-Thus a round fails with probability at most \(f/n+1/n\), and the algorithm is Las Vegas after exact final verification.
+For the final unplanted accepted row, condition on its accepted target. The tag \(a_0\) is uniform in the affine fibre of ev over that target, i.e. a coset of \(\ker(\operatorname{ev})\). Conditional on the transcript and on the solver's independent random projection coins, the returned \(y\) is fixed. Subtracting \(y^TA_0\) leaves \(\mu\) uniform in the one-dimensional kernel, hence \(\Pr[\mu=0]=1/n\). For nonsingular \(B_0\), standard Wiedemann succeeds with probability at least \(1-f/n\) per random projection; use a fixed number of projections, verify each candidate exactly, and retry the round if none verifies. The per-round success probability is therefore at least \((1-f/n)(1-(f/n)^R)(1-1/n)\) for R projections, ignoring any additional success on singular-but-consistent matrices. The algorithm is Las Vegas after exact final verification.
 
 ## 5. Expected relation-probe count
 
