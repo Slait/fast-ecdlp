@@ -53,6 +53,8 @@ example : ∀ m : ℕ, type_of% (ECDLP109.countingRate m) := ECDLP.L132.counting
 #print axioms ECDLPv2.L266.exactOrder_dvd
 #print axioms ECDLPv2.L266.relation_coefficients_divisible
 #print axioms ECDLPv2.L266.no_small_nontrivial_relation
+#print axioms ECDLPv2.L266.coordinateCombination_injective
+#print axioms ECDLPv2.L266.coordinateCombination_card
 
 -- Crossover arithmetic of the engine schedules (Section Where the guarantee starts to win).
 #print axioms L149.G1_arith_paper
