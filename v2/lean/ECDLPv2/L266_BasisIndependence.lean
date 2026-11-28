@@ -111,6 +111,39 @@ theorem relation_coefficients_divisible
 
   exact ⟨exactOrder_dvd hη hapow, exactOrder_dvd hη hbpow⟩
 
+
+/-- Exact additive order, stated without relying on a particular orderOf API. -/
+structure HasExactAddOrder (U : G) (n : ℕ) : Prop where
+  positive : 0 < n
+  annihilates : n • U = 0
+  minimal : ∀ k : ℕ, 0 < k → k < n → k • U ≠ 0
+
+/-- If U and V are n-torsion and their pairing has exact order n, then
+each point itself has exact additive order n. -/
+theorem WeilBasisCertificate.U_has_exact_order
+    (e : WeilPairingLaws G H) {n : ℕ}
+    (cert : WeilBasisCertificate e n) :
+    HasExactAddOrder cert.U n := by
+  refine ⟨cert.pairing_exact_order.positive, cert.U_torsion, ?_⟩
+  intro k hkpos hklt hkzero
+  have hrel : k • cert.U + 0 • cert.V = 0 := by
+    simpa using hkzero
+  have hdiv := relation_coefficients_divisible e cert.pairing_exact_order hrel
+  have hle : n ≤ k := Nat.le_of_dvd hkpos hdiv.1
+  omega
+
+theorem WeilBasisCertificate.V_has_exact_order
+    (e : WeilPairingLaws G H) {n : ℕ}
+    (cert : WeilBasisCertificate e n) :
+    HasExactAddOrder cert.V n := by
+  refine ⟨cert.pairing_exact_order.positive, cert.V_torsion, ?_⟩
+  intro k hkpos hklt hkzero
+  have hrel : 0 • cert.U + k • cert.V = 0 := by
+    simpa using hkzero
+  have hdiv := relation_coefficients_divisible e cert.pairing_exact_order hrel
+  have hle : n ≤ k := Nat.le_of_dvd hkpos hdiv.2
+  omega
+
 /-- In the coefficient window 0 ≤ a,b < n, a relation is necessarily
 trivial. This is the precise independence statement needed before using
 the cardinality of the elliptic n-torsion subgroup to conclude that U,V
