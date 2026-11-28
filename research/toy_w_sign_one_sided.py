@@ -5,14 +5,12 @@ This is an algebraic test only. The decomposition oracle is brute force and
 must not be confused with the asymptotic p^{o(1)} count oracle.
 """
 from collections import Counter
-from itertools import product
 import random
 
 P_MOD = 163
 B_CURVE = 7
 N = 139
 GEN = (2, 34)
-M = 2
 X = 13
 
 
@@ -204,7 +202,6 @@ def run_round(d, F, flogs, dec, log_table, rng):
 
 
 def main():
-    assert len([None] + []) == 1
     assert mul(N, GEN) is None
     F = make_factor_base()
     log_table = make_log_table()
@@ -238,7 +235,7 @@ def main():
     max_retries = 0
     for d in range(N):
         for retries in range(100):
-            status, _, *extra = run_round(d, F, flogs, dec, log_table, rng)
+            status, _ = run_round(d, F, flogs, dec, log_table, rng)
             if status == "ok":
                 # Recompute the result is unnecessary: status already checks d.
                 exhaustive[d] = True
