@@ -4,7 +4,7 @@ import ECDLP.L61_Facts
 /-!
 # L61 / Rounds: the oracle contract and one round of the search at the source level
 
-`Keep c`  : the oracle command preserves scalars `< 10` other than `3` and arrays `< 3`.
+`Keep c`  : the oracle command preserves scalars `< 10` other than `3` and arrays `< 2` (the driver needs arrays 0 and 1 preserved).
 `Orc c A L Z ok T` : on a state holding the input `A` (array 0, length `L` in scalar 0), the prefix `τ` in array 1
    (`bitN` cells, length in scalar 2), with `ok τ`, the command leaves `[0 < Z τ]` in scalar 3 within `T` steps.
 `roundBody c` : one round of `stepF` (`L61_Facts`): scalar 5 is the done flag.
@@ -14,7 +14,7 @@ open Factoring.Aux Factoring.Aux.Copied Factoring.Aux.Copied.PLib
 
 structure Keep (c : Cmd) : Prop where
   sc : ∀ st i, i < 10 → i ≠ 3 → (Cmd.run c st).1.sc i = st.sc i
-  ar : ∀ st a, a < 3 → (Cmd.run c st).1.ar a = st.ar a
+  ar : ∀ st a, a < 2 → (Cmd.run c st).1.ar a = st.ar a
 
 structure Orc (c : Cmd) (A : ℕ → ℕ) (L : ℕ) (Z : List Bool → ℕ) (ok : List Bool → Prop) (T : ℕ) : Prop where
   val : ∀ (st : St) (τ : List Bool), st.sc 0 = L → st.ar 0 = A → st.sc 2 = τ.length →
