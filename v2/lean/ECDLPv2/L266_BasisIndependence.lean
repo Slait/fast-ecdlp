@@ -152,7 +152,8 @@ theorem exactOrder_pow_injective {η : H} {n a b : ℕ}
     have hdiv := exactOrder_dvd hη hdiff
     have hlt : b - a < n := by omega
     by_contra hne
-    have hpos : 0 < b - a := Nat.pos_of_ne_zero hne
+    have hdiff_ne : b - a ≠ 0 := by omega
+    have hpos : 0 < b - a := Nat.pos_of_ne_zero hdiff_ne
     have hle : n ≤ b - a := Nat.le_of_dvd hpos hdiv
     omega
   · have hba : b ≤ a := by omega
@@ -169,7 +170,8 @@ theorem exactOrder_pow_injective {η : H} {n a b : ℕ}
     have hdiv := exactOrder_dvd hη hdiff
     have hlt : a - b < n := by omega
     by_contra hne
-    have hpos : 0 < a - b := Nat.pos_of_ne_zero hne
+    have hdiff_ne : a - b ≠ 0 := by omega
+    have hpos : 0 < a - b := Nat.pos_of_ne_zero hdiff_ne
     have hle : n ≤ a - b := Nat.le_of_dvd hpos hdiv
     omega
 
