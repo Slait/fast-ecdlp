@@ -21,6 +21,17 @@ Expected output for each line: `[propext, Classical.choice, Quot.sound]`. -/
 example : ∀ m : ℕ, type_of% (ECDLP109.countingRate m) := ECDLP.L132.countingRate_all
 #print axioms ECDLP.L132.countingRate_all
 
+-- W1S Count15 -> L61 bridge: exact frame, zero-test polarity, ESpec, and gated ZSpecAt.
+-- ESpec uses scalar 3 = 1 iff the count is zero; scalar 3 = 0 iff the count is positive.
+#print axioms ECDLP.L132.keep_cntOra
+#print axioms ECDLP.L132.keep_cntZeroFlag
+#print axioms ECDLP.L132.cntZeroFlag_run
+#print axioms ECDLP.L132.outOf_length
+#print axioms ECDLP.L132.encodeNat_eq_nil_iff
+#print axioms ECDLP.L132.cntOra_ESpec
+#print axioms ECDLP.L132.cntOra_zspecAt
+
+
 -- Index-calculus reduction behind Theorem 1 (L114)
 #print axioms ECDLP.L114.relation_lattice
 #print axioms ECDLP.L114.recover_from_span
